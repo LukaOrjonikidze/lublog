@@ -1,0 +1,57 @@
+import { useState, useRef } from 'react';
+
+const Login = (props) => {
+    const [isLoggingIn, setIsLoggingIn] = useState(false);
+    const emailRef = useRef();
+    const passwordRef = useRef();
+
+
+    const handleSubmit = (e) => {
+        let email = emailRef.current.value;
+        let password = passwordRef.current.value;
+        e.preventDefault();
+        fetch('https://localhost:7026/api/Auth/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Expose-Headers': 'Authorization'
+            },
+            body: JSON.stringify({
+                email: email,
+                password: password
+            })
+        })
+        .then(response => {
+            console.log(response);
+            console.log(response.headers)
+            const token = response.headers.get('authorization');
+            console.log(token);
+            localStorage.setItem('token', token);
+            return response.json();
+        })
+        .then(data => {
+            console.log(data);
+            if (data.response === "Success"){
+                props.onLogin(data.user.id, data.user.name, data.user.email);
+            } 
+        });
+               
+        
+    }
+
+    return (
+        <>
+            {isLoggingIn ?
+                <form onSubmit={handleSubmit}>
+                    <input ref={emailRef} placeholder="Your Email" />
+                    <input ref={passwordRef} placeholder="Your Password" type="password" />
+                    <button type="submit">Login</button>
+                </form>
+            :
+                <button onClick={() => setIsLoggingIn(true)}>Login</button>
+            }
+        </>
+    )
+}
+
+export default Login

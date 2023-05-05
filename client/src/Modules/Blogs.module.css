@@ -1,0 +1,13 @@
+.blogs-page {
+    display: flex;
+    justify-content: space-between;
+}
+.blogs {
+    width: 100%;
+}
+.aside-div {
+    display: flex;
+    padding: 3rem;
+    flex-direction: column;
+    gap: 1rem;
+}
