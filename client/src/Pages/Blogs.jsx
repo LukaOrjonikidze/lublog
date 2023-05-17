@@ -12,7 +12,7 @@ const Blogs = (props) => {
   }); 
 
   useEffect(() => {
-    fetch('https://localhost:7026/api/Blogs')
+    fetch('http://localhost:5157/api/Blogs')
       .then(response => response.json())
       .then(data => {
         setBlogs(data.$values);
@@ -21,7 +21,7 @@ const Blogs = (props) => {
 
   useEffect(() => {
     if (localStorage.getItem('token') !== 'null' && localStorage.getItem('token') !== null && localStorage.getItem('token') !== undefined){
-      fetch('https://localhost:7026/api/Auth', {
+      fetch('http://localhost:5157/api/Auth', {
         headers: {
           'Authorization': localStorage.getItem('token')
         }
@@ -42,7 +42,7 @@ const Blogs = (props) => {
       setBlogs(blogs.filter(item => item.id !== id));
   }
   const handleSave = (title, text) => {
-    fetch('https://localhost:7026/api/Blogs', {
+    fetch('http://localhost:5157/api/Blogs', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -56,7 +56,7 @@ const Blogs = (props) => {
     .then(response => response.json())
     .then(data => {
       console.log(data);
-      setBlogs(prevValue => [{id: data.id, title: data.title, text: data.text, user: data.user}, ...prevValue]);
+      setBlogs(prevValue => [...prevValue, {id: data.id, title: data.title, text: data.text, user: data.user}]);
     });
   }
 

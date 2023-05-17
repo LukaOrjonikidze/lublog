@@ -1,4 +1,6 @@
 import { useState, useRef } from 'react';
+import Button from '../UI/Button';
+import classes from "../Modules/Registration.module.css";
 
 const Registration = (props) => {
     const [isRegistering, setIsRegistering] = useState(false);
@@ -9,7 +11,7 @@ const Registration = (props) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        fetch('https://localhost:7026/api/Auth/register', {
+        fetch('http://localhost:5157/api/Auth/register', {
             method: 'POST',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
@@ -29,14 +31,17 @@ const Registration = (props) => {
     return (
         <>
             {isRegistering ?
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} className={classes['registration-form']}>
                     <input ref={nameRef} placeholder="Your Name" />
                     <input ref={emailRef} placeholder="Your Email" />
                     <input ref={passwordRef} placeholder="Your Password" type="password" />
-                    <button type="submit">Register</button>
+                    <div style={{display: "flex", justifyContent: "space-between", gap: "1rem"}}>
+                        <Button type="submit">Register</Button>
+                        <Button type="button" onClick={() => setIsRegistering(false)}>Cancel</Button>
+                    </div>
                 </form>
             :
-                <button onClick={() => setIsRegistering(true)}>Register</button>
+                <Button onClick={() => setIsRegistering(true)}>Register</Button>
             }
         </>
     )

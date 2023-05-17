@@ -1,4 +1,7 @@
 import { useState, useRef } from 'react';
+import Button from '../UI/Button';
+import classes from "../Modules/Login.module.css";
+
 
 const Login = (props) => {
     const [isLoggingIn, setIsLoggingIn] = useState(false);
@@ -10,7 +13,7 @@ const Login = (props) => {
         let email = emailRef.current.value;
         let password = passwordRef.current.value;
         e.preventDefault();
-        fetch('https://localhost:7026/api/Auth/login', {
+        fetch('http://localhost:5157/api/Auth/login', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -42,13 +45,16 @@ const Login = (props) => {
     return (
         <>
             {isLoggingIn ?
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} className={classes['login-form']}>
                     <input ref={emailRef} placeholder="Your Email" />
                     <input ref={passwordRef} placeholder="Your Password" type="password" />
-                    <button type="submit">Login</button>
+                    <div style={{display: "flex", justifyContent: "space-between", gap: "1rem"}}>
+                        <Button type="submit">Login</Button>
+                        <Button type="button" onClick={() => setIsLoggingIn(false)}>Cancel</Button>
+                    </div>
                 </form>
             :
-                <button onClick={() => setIsLoggingIn(true)}>Login</button>
+                <Button onClick={() => setIsLoggingIn(true)}>Login</Button>
             }
         </>
     )

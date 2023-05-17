@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import classes from '../Modules/Blog.module.css';
+import Button from '../UI/Button';
+import DeleteButton from "../UI/DeleteButton";
 
 const Blog = (props) => {
     const [editing, setEditing] = useState(false);
     const [title, setTitle] = useState(props.title);
-    const [author, setAuthor] = useState(props.author);
     const [text, setText] = useState(props.text);
 
     const onEdit = () => {
@@ -13,7 +14,7 @@ const Blog = (props) => {
 
     const onSave = () => {
       setEditing(false);
-      fetch('https://localhost:7026/api/Blogs/' + props.id, {
+      fetch('http://localhost:5157/api/Blogs/' + props.id, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -22,7 +23,6 @@ const Blog = (props) => {
         body: JSON.stringify({
           id: props.id,
           title: title,
-          author: author,
           text: text,
         })
       }).then(response => response.json())
@@ -30,7 +30,7 @@ const Blog = (props) => {
     }
     
     const onDelete = () => {
-      fetch('https://localhost:7026/api/Blogs/' + props.id, {
+      fetch('http://localhost:5157/api/Blogs/' + props.id, {
         method: 'DELETE',
         headers: {
           'Content-Type': 'application/json',
@@ -47,10 +47,13 @@ const Blog = (props) => {
       return (<form><div className={classes['blog']}>
                 <div className={classes['blog-head']}>
                   <input className={classes['blog-title']} value={title} onChange={(e) => setTitle(e.target.value)} />
-                  <input className={classes['blog-author']} value={author} onChange={(e) => setAuthor(e.target.value)} />
+                  <strong className={classes['blog-author']}>{props.author}</strong>
                 </div>
               <textarea className={classes['blog-text']} value={text} onChange={(e) => setText(e.target.value)} />
-              <button className={classes['blog-edit']} onClick={onSave}>Save</button>
+              <div style={{display: "flex", justifyContent: "space-between", gap: "1rem"}}>
+              <Button className={classes['blog-edit']} onClick={onSave}>Save</Button>
+                        <Button type="button" onClick={() => setEditing(false)}>Cancel</Button>
+                    </div>
           </div>
           </form>
       )
@@ -59,12 +62,12 @@ const Blog = (props) => {
     return (<div className={classes['blog']}>
                 <div className={classes['blog-head']}>
                   <strong className={classes['blog-title']}>{title}</strong>
-                  <strong className={classes['blog-author']}>{author}</strong>
+                  <strong className={classes['blog-author']}>{props.author}</strong>
                 </div>
               <span className={classes['blog-text']}>{text}</span>
               {props.isAuthor && <div className={classes['blog-controls']}>
-                    <button className={classes['blog-edit']} onClick={onEdit}>Edit</button>
-                    <button className={classes['blog-delete']} onClick={onDelete}>Delete</button>
+                    <Button className={classes['blog-edit']} onClick={onEdit}>Edit</Button>
+                    <DeleteButton onClick={onDelete}>Delete</DeleteButton>
                 </div>}
           </div>
     )

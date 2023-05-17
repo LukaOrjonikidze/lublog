@@ -2,6 +2,9 @@ import { useState } from "react";
 import AddBlog from "./AddBlog";
 import Login from "./Login";
 import Registration from "./Registration";
+import classes from "../Modules/Authorization.module.css";
+import Button from "../UI/Button";
+
 
 const Authorization = (props) => {
     const [loggingIn, setLoggingIn] = useState(false);
@@ -17,10 +20,10 @@ const Authorization = (props) => {
     }
 
     return (
-        <div>
+        <div className={classes['auth']}>
             {loggingIn || loggedIn ? 
             <>
-                <button onClick={handleLogout}>Log Out</button>
+                <Button onClick={handleLogout}>Log Out</Button>
                 <h1>{props.user.name}</h1>
                 <h2>{props.user.email}</h2>
                 <AddBlog onSave={props.onBlogSave} />
