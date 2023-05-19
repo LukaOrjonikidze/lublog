@@ -2,6 +2,7 @@ import { useState } from 'react';
 import classes from '../Modules/Blog.module.css';
 import Button from '../UI/Button';
 import DeleteButton from "../UI/DeleteButton";
+import EditButton from "../UI/EditButton";
 
 const Blog = (props) => {
     const [editing, setEditing] = useState(false);
@@ -66,7 +67,7 @@ const Blog = (props) => {
                 </div>
               <span className={classes['blog-text']}>{text}</span>
               {props.isAuthor && <div className={classes['blog-controls']}>
-                    <Button className={classes['blog-edit']} onClick={onEdit}>Edit</Button>
+                    <EditButton onClick={onEdit}>Edit</EditButton>
                     <DeleteButton onClick={onDelete}>Delete</DeleteButton>
                 </div>}
           </div>
