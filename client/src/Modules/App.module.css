@@ -10,6 +10,11 @@ body {
 }
 input, textarea {
     border: #dddddd 1px solid;
+    padding: 0.4rem 0.5rem;
+    border-radius: 0.25rem;
     background-color: #121212;
     color: white;
+}
+input:focus, textarea:focus {
+    transition: 0.2s;
 }
